@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { json } = require("body-parser");
 let User = require("../models/user.model");
 
 router.route("/").get((req, res) => {
@@ -22,9 +23,19 @@ router.route("/add").post((req, res) => {
 		.catch((err) => res.status(400).json({ Error: err }));
 });
 
-// router.route("/answer/:id").post((req, res) => {
-//   const answer = req.body.answer
-//   User.update({})
-// })
+router.route("/answer").post((req, res) => {
+  const userId = req.body.userId
+  const questId = req.body.questId
+  const ansId = req.body.ansId
+  User.findById(userId)
+    .then((user) => {
+      user.answers.push(ansId)
+      user
+        .save()
+        .then(() => res.json({text: `User ${userId} updated!`}))
+        .catch(err => res.status(400).json({Error: err}))
+    })
+    .catch(err => res.status(400).json({Error: err}))
+})
 
 module.exports = router;
