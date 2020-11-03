@@ -22,7 +22,7 @@ connection.once("open", () => {
 })
 
 app.use("/users", userRoute)
-app.use("/questionnaire", questionnaireRoute)
+app.use("/questionnaires", questionnaireRoute)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
