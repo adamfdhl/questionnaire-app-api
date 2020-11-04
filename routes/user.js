@@ -24,18 +24,14 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/answer").post((req, res) => {
-  const userId = req.body.userId
-  const questId = req.body.questId
-  const ansId = req.body.ansId
-  User.findById(userId)
-    .then((user) => {
-      user.answers.push(ansId)
-      user
-        .save()
-        .then(() => res.json({text: `User ${userId} updated!`}))
-        .catch(err => res.status(400).json({Error: err}))
-    })
-    .catch(err => res.status(400).json({Error: err}))
+  const username = req.body.username
+  const answers = req.body.userAnswer
+  const total_point = req.body.totalScore
+  const newUser = new User({username, answers, total_point})
+  newUser
+		.save()
+		.then(() => res.json({ text: "User added!" }))
+		.catch((err) => res.status(400).json({ Error: err }));
 })
 
 module.exports = router;
